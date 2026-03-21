@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Цементный калькулятор · "Регламент Иванова"</title>
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link rel="stylesheet" type="text/css" href="./css/slides.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+</head>
+<body>
+    <div class="presentation-container">
+        <header>
+            <div class="header__main-content">
+                <div class="header__title">
+                    <h1>ЦЕМЕНТНЫЙ КАЛЬКУЛЯТОР</h1>
+                    <h2>веб-презентация</h2>
+                </div>
+                <div class="header__controls-tools">
+                    <div id="btnManual" class="manual-container">
+                        <span>Ручной просмотр</span>
+                        <div class="slider-controls">
+                            <button id="prevSlideBtn" class="manual-btn btn-active">◀</button>
+                            <button id="nextSlideBtn" class="manual-btn btn-active">▶</button>
+                        </div>
+                        <span class="counter" id="slideCounter">0 / 0</span>
+                    </div>
+                    
+                    <button id="btnAuto" class="control-btn">▶ Авто презентация</button>
+                    
+                </div>
+            </div>
+            <button id="btnDemoHeader" class="action-btn">
+                Старт <br> Демо
+            </button>
+            
+        </header>
+
+    
+        <main id="slideArea">
+            <div class="slide-content" id="slideContent">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p class="loading-text">Загрузка слайдов...</p>
+                </div>
+            </div>
+        </main>
+    
+    
+    
+        <footer class="footer-nav">
+            <div class="page-dots" id="pageDots"></div>
+            <div>
+                <span class="autoplay-indicator" id="autoplayIndicator">⏹ ручной режим</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div id="demoModal" class="modal">
+            <div class="modal-header">
+                <h3>Демо-доступ</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Тут будет форма входа в демо</p>
+                <div class="modal-demo-placeholder">
+                    <p>Временно: для получения демо-доступа свяжитесь с нами:</p>
+                    <p>maxim2@yandex.ru</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-close">Закрыть</button>
+            </div>
+        </div>
+
+        <div id="codeRequestModal" class="modal">
+            <div class="modal-header">
+                <h3>Запрос кода доступа</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Тут будет форма отправки письма с запросом кода</p>
+                <div class="modal-code-placeholder">
+                    <p>Временно: для получения кода доступа свяжитесь с нами:</p>
+                    <p>maxim2@yandex.ru</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-close">Закрыть</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./js/index.js"></script>
+
+</body>
+</html>

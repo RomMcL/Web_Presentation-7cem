@@ -27,19 +27,51 @@
     font-style: normal;
 }
 
-/* Цветовая схема */
-:root {
 
+/* Общие переменные */
+:root {
+    --error: rgba(231, 76, 60, 1);
+    --success: rgba(46, 204, 113, 1);
+
+    --hexagon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23474A51' fill-opacity='0.4' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Тема Чистый контраст */
+:root[data-theme="pure"] {
     --black: rgba(0, 0, 0, 1);
     --white: rgba(255, 255, 255, 1);
     --grey: rgba(128, 128, 128, 1);
     --graphite: rgba(71, 74, 81, 1);
-
-
-    --hexagon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23474A51' fill-opacity='0.4' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    
-
+    --blackout: rgba(26, 26, 46, 1);
 }
+
+/* Тема мягче */
+:root[data-theme="soft"] {
+    --black: rgba(10, 10, 10, 1);
+    --white: rgba(245, 245, 245, 1);
+    --grey: rgba(138, 138, 138, 1);
+    --graphite: rgba(74, 77, 84, 1);
+    --blackout: rgba(45, 62, 64, 1);
+}
+
+/* Тема Лесной нуар */
+:root[data-theme="forest"] {
+    --black: rgb(24, 28, 20);
+    --white: rgb(236, 223, 204);
+    --grey: rgb(105, 117, 101);
+    --graphite: rgb(60, 61, 55);
+    --blackout: rgba(30, 58, 47, 1);
+}
+
+/* Тема Янтарный треш */
+:root[data-theme="orange"] {
+    --black: rgb(40, 25, 25);  
+    --white: rgb(255, 235, 215); 
+    --grey: rgb(200, 130, 100);    
+    --graphite: rgb(230, 100, 50);
+    --blackout: rgba(139, 60, 28, 1);
+}
+
 
 /* Сброс стилей */
 

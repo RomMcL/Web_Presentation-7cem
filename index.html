@@ -47,12 +47,35 @@
             </div>
         </main>
     
-    
-    
+   
         <footer class="footer-nav">
             <div class="page-dots" id="pageDots"></div>
-            <div>
+            <div class="footer-right">
                 <span class="autoplay-indicator" id="autoplayIndicator">⏹ ручной режим</span>
+                <div class="theme-switcher">
+                    <button id="themeSwitcherBtn" class="theme-btn" aria-label="Сменить тему"></button>
+                    <div id="themeTooltip" class="theme-tooltip">
+                        <h4>Выберите тему</h4>
+                        <div class="theme-options">
+                            <label class="theme-option">
+                                <input type="radio" name="theme" value="pure">
+                                <span>Чистый B&W</span>
+                            </label>
+                            <label class="theme-option">
+                                <input type="radio" name="theme" value="soft" checked>
+                                <span>Мягкий B&W</span>
+                            </label>
+                            <label class="theme-option">
+                                <input type="radio" name="theme" value="forest">
+                                <span>Лесной нуар</span>
+                            </label>
+                            <label class="theme-option">
+                                <input type="radio" name="theme" value="orange">
+                                <span>Янтарный треш</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </footer>
 
@@ -60,37 +83,75 @@
 
     <!-- Модальные окна -->
     <div id="modalOverlay" class="modal-overlay">
-        <div id="demoModal" class="modal">
+        <!-- Форма запроса (письма) для получения кода доступа -->
+        <div id="codeRequestModal" class="modal modal-large custom-scroll">
             <div class="modal-header">
-                <h3>Демо-доступ</h3>
-                <button class="modal-close">&times;</button>
+                <span class="modal-header-icon icon_mail"></span>
+                <h3>Запрос кода доступа</h3>
+                <button class="modal-close" aria-label="Закрыть">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Тут будет форма входа в демо</p>
-                <div class="modal-demo-placeholder">
-                    <p>Временно: для получения демо-доступа свяжитесь с нами:</p>
-                    <p>maxim2@yandex.ru</p>
-                </div>
+                               
+                <form id="codeRequestForm" class="modal-form form_code-request">
+                    <div class="form-group">
+                        <label for="userName">Ваше имя<span>*</span></label>
+                        <input type="text" id="userName" class="modal-input" placeholder="Как к Вам обращаться?" autocomplete="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userEmail">Электронная почта<span>*</span></label>
+                        <input type="email" id="userEmail" class="modal-input" placeholder="Необходима для ответа." autocomplete="email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userCompany">Компания</label>
+                        <input type="text" id="userCompany" class="modal-input" placeholder="ООО 'Цементный завод'" autocomplete="organization">
+                    </div>
+                                       
+                    <div class="form-group">
+                        <label for="userPhone">Телефон (по желанию)</label>
+                        <input type="tel" id="userPhone" class="modal-input" placeholder="+7 (XXX) XXX-XX-XX" autocomplete="tel">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userMessage">Комментарий<span>*</span></label>
+                        <textarea id="userMessage" class="modal-textarea custom-scroll" rows="3" placeholder="Ваш вопрос или комментарий..."></textarea>
+                    </div>
+
+                    <p id="descriptionRequestForm" class="form-description">Заполните форму, и мы отправим код доступа на Вашу почту</p>
+                    <div id="waitingMailLoader" class="waiting-mail-loader">
+                        <div class="mail-loader-icon"></div>
+                    </div>
+                    <div id="formErrorMessage" class="error-message"></div>
+                    <div id="formSuccessMessage" class="success-message"></div>
+                </form>
+
             </div>
             <div class="modal-footer">
-                <button class="modal-btn modal-btn-close">Закрыть</button>
+                <button id="cancelRequestBtn" class="modal-btn modal-btn-secondary modal-btn-close">Отмена</button>
+                <button id="submitRequestBtn" class="modal-btn modal-btn-primary">Отправить запрос</button>
             </div>
         </div>
 
-        <div id="codeRequestModal" class="modal">
+        <!-- Форма ввода кода доступа (перехода к калькулятору) -->
+        <div id="demoModal" class="modal custom-scroll">
             <div class="modal-header">
-                <h3>Запрос кода доступа</h3>
-                <button class="modal-close">&times;</button>
+                <a href="#" class="modal-header-icon icon_demo"></a> <!-- заменить на href="/admin" -->
+                <h3>Демо-доступ</h3>
+                <button class="modal-close" aria-label="Закрыть">&times;</button>
             </div>
+
             <div class="modal-body">
-                <p>Тут будет форма отправки письма с запросом кода</p>
-                <div class="modal-code-placeholder">
-                    <p>Временно: для получения кода доступа свяжитесь с нами:</p>
-                    <p>maxim2@yandex.ru</p>
-                </div>
+                <p class="form-description">Введите код доступа для запуска демо-версии</p>
+                <form id="demoForm" class="modal-form form_demo">
+                    <input type="password" id="accessCode" class="modal-input" placeholder="Код доступа" autocomplete="off">
+                    <div id="formDemoErrorMessage" class="error-message"></div>                   
+                </form>
             </div>
+
             <div class="modal-footer">
-                <button class="modal-btn modal-btn-close">Закрыть</button>
+                <button id="requestCodeBtn" class="modal-link-btn">Запросить код доступа</button>
+                <button id="startDemoBtn" class="modal-btn modal-btn-primary">Старт демо</button>
             </div>
         </div>
     </div>

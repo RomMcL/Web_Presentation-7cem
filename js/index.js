@@ -7,14 +7,14 @@
         { title: 'Контекст', file: 'slide_context.html', autoDelay: 7000 },
         { title: 'Проблема', file: 'slide_whyImpossible.html', autoDelay: 7000 },
         { title: 'Решение', file: 'slide_solution.html', autoDelay: 8500 },
-        { title: 'Анализаторы', file: 'slide_analyzer.html', autoDelay: 3000 },
-        { title: 'Возможности программы', file: 'slide_opportunities.html', autoDelay: 3000 },
-        { title: 'Экономика', file: 'slide_economy.html', autoDelay: 3000 },
-        { title: 'Преимущества', file: 'slide_bonusCards.html', autoDelay: 3000 },
-        { title: 'Модель', file: 'slide_annualEffect.html', autoDelay: 3000 },
-        { title: 'Доказательства', file: 'slide_proofs.html', autoDelay: 3000 },
-        { title: 'Частые вопросы', file: 'slide_faq.html', autoDelay: 3000 },        
-        { title: 'Финальный слайд', file: 'slide_end.html', autoDelay: 5000 },
+        { title: 'Анализаторы', file: 'slide_analyzer.html', autoDelay: 13000 },
+        { title: 'Возможности программы', file: 'slide_opportunities.html', autoDelay: 7000 },
+        { title: 'Экономика', file: 'slide_economy.html', autoDelay: 6000 },
+        { title: 'Преимущества', file: 'slide_bonusCards.html', autoDelay: 6000 },
+        { title: 'Модель', file: 'slide_annualEffect.html', autoDelay: 6000 },
+        { title: 'Доказательства', file: 'slide_proofs.html', autoDelay: 5000 },
+        { title: 'Частые вопросы', file: 'slide_faq.html', autoDelay: 7000 },
+        { title: 'Финальный слайд', file: 'slide_end.html', autoDelay: 6000 },
     ];
 
     // Базовый путь к папке со слайдами (относительно index.html)
@@ -27,7 +27,7 @@
     const defaultDelay = 5000;  // задержка по умолчанию, если не указана autoDelay
     let isFirstAutoRun = true;  // флаг первого запуска авторежима
     let isModalOpen = false;
-
+    
     // DOM элементы
     const btnDemoHeader = document.getElementById('btnDemoHeader');
     const slideContentDiv = document.getElementById('slideContent');
@@ -112,13 +112,17 @@
 
             // обновить dots
             const dotsHtml = slides.map((_, i) => {
-                return `<button class="dot ${i === index ? 'active' : ''}" data-index="${i}"></button>`;
+                const slideTitle = slides[i].title;
+                const tooltipText = `Слайд ${i+1}: ${slideTitle}`;
+                return `<button class="dot ${i === index ? 'active' : ''}" data-index="${i}" data-tooltip="${tooltipText.replace(/"/g, '&quot;')}"></button>`;
             }).join('');
             pageDotsDiv.innerHTML = dotsHtml;
 
             // навесить обработчики на dots
             document.querySelectorAll('.dot').forEach(dot => {
                 dot.addEventListener('click', (e) => {
+                    if (autoMode) setAutoMode(false);
+
                     const idx = e.target.getAttribute('data-index');
                     if (idx !== null) {
                         goToSlide(parseInt(idx, 10));
@@ -167,7 +171,7 @@
         }, delay);
     }
 
-    // переход с проверкой границ
+    // Переход с проверкой границ
     function goToSlide(newIndex) {
         // Только forward зациклен, backward - нет
         if (newIndex < 0) newIndex = 0;  // назад не зациклен - остаемся на первом
@@ -193,7 +197,75 @@
         else setAutoMode(false);
     }
 
-    // авто режим
+    // Функция для инициализации свайпов на тач-устройствах
+    function initSwipeSupport() {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartTime = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
+        const minSwipeDistance = 50;
+        const maxSwipeTime = 300;
+        
+        function handleSwipe() {
+            const swipeDistance = touchEndX - touchStartX;
+            const swipeTime = Date.now() - touchStartTime;
+            
+            if (Math.abs(swipeDistance) >= minSwipeDistance && swipeTime <= maxSwipeTime) {
+                if (swipeDistance > 0) {
+                    prevSlide();
+                } else {
+                    nextSlide();
+                }
+            }
+        }
+        
+        const slideArea = document.getElementById('slideArea');
+        if (!slideArea) return;
+        
+        slideArea.addEventListener('touchstart', (e) => {
+            // Не обрабатываем свайп, если начали с интерактивных элементов
+            if (e.target.closest('button, a, input, [role="button"], .modal, .modal *')) {
+                return;
+            }
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+            touchStartTime = Date.now();
+            isSwiping = true;
+        }, { passive: true });
+        
+        slideArea.addEventListener('touchmove', (e) => {
+            if (!isSwiping) return;
+            
+            const moveX = e.changedTouches[0].screenX;
+            const deltaX = Math.abs(moveX - touchStartX);
+            const deltaY = Math.abs(e.changedTouches[0].screenY - touchStartY);
+            
+            // Если движение преимущественно горизонтальное, предотвращаем скролл
+            if (deltaX > deltaY && deltaX > 10) {
+                e.preventDefault();
+            }
+        });
+        
+        slideArea.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            
+            if (e.target.closest('button, a, input, [role="button"], .modal, .modal *')) {
+                isSwiping = false;
+                return;
+            }
+            
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            isSwiping = false;
+        });
+        
+        slideArea.addEventListener('touchcancel', () => {
+            isSwiping = false;
+        });
+    }
+
+    // Авто режим
     function setAutoMode(enabled) {
         if (enabled === autoMode) return;
 
@@ -259,6 +331,7 @@
         });
     }
 
+    // Модальные окна
     function initModals() {
         const overlay = document.getElementById('modalOverlay');
         const closeButtons = document.querySelectorAll('.modal-close, .modal-btn-close');
@@ -282,11 +355,325 @@
         });
     }
 
+    // Обработка формы ввода кода для демо-доступа
+    function initDemoForm() {
+        const accessCodeInput = document.getElementById('accessCode');
+        const errorDiv = document.getElementById('formDemoErrorMessage');
+        const startDemoBtn = document.getElementById('startDemoBtn');
+        const requestCodeBtn = document.getElementById('requestCodeBtn');
+        
+        if (startDemoBtn) {
+            startDemoBtn.addEventListener('click', () => {
+                const code = accessCodeInput?.value.trim();
+                
+                if (!code) {
+                    if (errorDiv) {
+                        errorDiv.textContent = 'Пожалуйста, введите код доступа';
+                        errorDiv.classList.add('show');
+                    }
+                    return;
+                }
+                
+                // Здесь логика проверки кода
+                if (code === '111') { // пример
+                    errorDiv.classList.remove('show');
+                    closeModal();
+                    // Код верный - пускаем дальше
+                    console.log('Введён верный код доступа');
+                } else {
+                    if (errorDiv) {
+                        errorDiv.textContent = 'Неверный код доступа. Попробуйте еще раз или запросите новый код.';
+                        errorDiv.classList.add('show');
+                    }
+                    if (accessCodeInput) accessCodeInput.value = '';
+                    accessCodeInput?.focus();
+                }
+            });
+        }
+
+        // Подтверждение введённого кода клавишей Enter
+        if (accessCodeInput) {
+            accessCodeInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    startDemoBtn?.click();
+                }
+            });
+        }
+
+        // Переход к модалке с запросом кода (mail)
+        if (requestCodeBtn) {
+            requestCodeBtn.addEventListener('click', () => {
+                openModal('codeRequestModal');
+            });
+        }
+    }
+
+    // Обработка формы запроса кода
+    function initCodeRequestForm() {
+        const submitBtn = document.getElementById('submitRequestBtn');
+        const cancelBtn = document.getElementById('cancelRequestBtn');
+        const form = document.getElementById('codeRequestForm');
+        const descriptionElem = document.getElementById('descriptionRequestForm');
+        const waitingLoader = document.getElementById('waitingMailLoader');
+        const errorDiv = document.getElementById('formErrorMessage');
+        const successDiv = document.getElementById('formSuccessMessage');
+        
+        if (submitBtn) {
+            submitBtn.addEventListener('click', async () => {
+                // Скрываем предыдущие сообщения и показываем описание
+                hideAllMessages();
+                showDescription();
+                
+                // Собираем данные формы
+                const userName = document.getElementById('userName')?.value.trim();
+                const userEmail = document.getElementById('userEmail')?.value.trim();
+                const userMessage = document.getElementById('userMessage')?.value.trim();
+                const userCompany = document.getElementById('userCompany')?.value.trim();
+                const userPhone = document.getElementById('userPhone')?.value.trim();
+                
+                // Валидация
+                if (!userName) {
+                    showFormError('Пожалуйста, укажите ваше имя');
+                    return;
+                }
+                if (!userEmail) {
+                    showFormError('Пожалуйста, укажите email для отправки кода');
+                    return;
+                }
+                if (!isValidEmail(userEmail)) {
+                    showFormError('Пожалуйста, введите корректный email');
+                    return;
+                }
+                if (!userMessage) {
+                    showFormError('Пожалуйста, заполните комментарий');
+                    return;
+                }
+                
+                // Блокируем кнопку и показываем лоадер
+                setButtonLoading(true);
+                showLoader();
+
+                // Имитация отправки (заменить на реальный запрос)
+                
+                try {
+                    // Здесь должен быть fetch запрос
+                    /*
+                    const response = await fetch('/api/request-code', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            name: userName,
+                            email: userEmail,
+                            company: userCompany,
+                            phone: userPhone,
+                            message: userMessage
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        showFormSuccess('Запрос отправлен! Код доступа будет выслан на указанный email в ближайшее время.');
+                        if (form) form.reset();
+                        setTimeout(() => {
+                            closeModal();
+                        }, 3000);
+                    } else {
+                        const errorData = await response.json();
+                        showFormError(errorData.message || 'Произошла ошибка. Пожалуйста, попробуйте позже.');
+                    }
+                    */
+                
+                    // Временная имитация (удалить после добавления реального API)
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+
+
+                    // Скрываем лоадер и формируем сообщение об успехе
+                    hideLoader();
+                    showFormSuccess('Запрос отправлен! Код доступа будет выслан на указанный email в ближайшее время.');
+                    // Очищаем форму
+                    if (form) form.reset();
+                    // Закрываем модалку через 3 секунды
+                    setTimeout(() => {
+                        closeModal();
+                    }, 3000);
+
+                } catch (error) {
+                    showFormError('Ошибка соединения. Проверьте интернет-соединение.');
+                } finally {
+                    // Разблокируем кнопку
+                    setButtonLoading(false);
+                }
+            });
+        }
+
+        // Функция для установки состояния загрузки кнопки
+        function setButtonLoading(isLoading) {
+            if (!submitBtn || !cancelBtn) return;
+            
+            if (isLoading) {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('btn-disabled');
+                cancelBtn.disabled = true;
+                cancelBtn.classList.add('btn-disabled');
+                // Сохраняем исходный текст
+                submitBtn.setAttribute('data-original-text', submitBtn.textContent);
+                submitBtn.textContent = 'Отправка запроса';
+            } else {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('btn-disabled');
+                cancelBtn.disabled = false;
+                cancelBtn.classList.remove('btn-disabled');
+                // Восстанавливаем исходный текст
+                const originalText = submitBtn.getAttribute('data-original-text');
+                if (originalText) {
+                    submitBtn.textContent = originalText;
+                } else {
+                    submitBtn.textContent = 'Отправить запрос';
+                }
+            }
+        }
+        
+        // Функция для показа лоадера
+        function showLoader() {
+            hideDescription();
+            if (waitingLoader) {
+                waitingLoader.style.display = 'flex';
+            }
+        }
+        
+        // Функция для скрытия лоадера
+        function hideLoader() {
+            if (waitingLoader) {
+                waitingLoader.style.display = 'none';
+            }
+        }
+
+        // Функция для скрытия всех сообщений и показа описания
+        function hideAllMessages() {
+            if (errorDiv) {
+                errorDiv.classList.remove('show');
+                errorDiv.style.display = 'none';
+            }
+            if (successDiv) {
+                successDiv.style.display = 'none';
+            }
+            hideLoader();
+        }
+        
+        // Функция для показа описания
+        function showDescription() {
+            if (descriptionElem) {
+                descriptionElem.style.display = 'flex';
+            }
+        }
+        
+        // Функция для скрытия описания
+        function hideDescription() {
+            if (descriptionElem) {
+                descriptionElem.style.display = 'none';
+            }
+        }
+        
+        // Функция для показа ошибки
+        function showFormError(message) {
+            hideDescription();
+            hideLoader();
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.classList.add('show');
+                errorDiv.style.display = 'flex';
+            }
+            if (successDiv) {
+                successDiv.style.display = 'none';
+            }
+        }
+        
+        // Функция для показа успеха
+        function showFormSuccess(message) {
+            hideDescription();
+            hideLoader();
+            if (successDiv) {
+                successDiv.textContent = message;
+                successDiv.style.display = 'flex';
+            }
+            if (errorDiv) {
+                errorDiv.classList.remove('show');
+                errorDiv.style.display = 'none';
+            }
+        }
+        
+        // Функция валидации email
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        // Очистка сообщений при начале ввода в поля
+        const inputs = ['userName', 'userEmail', 'userMessage', 'userCompany', 'userPhone'];
+        inputs.forEach(id => {
+            const input = document.getElementById(id);
+            if (input) {
+                input.addEventListener('focus', () => {
+                    if (errorDiv && errorDiv.style.display === 'flex') {
+                        hideAllMessages();
+                        showDescription();
+                    }
+                });
+            }
+        });
+    }
+
+    // Инициализация переключателя тем
+function initThemeSwitcher() {
+    const themeBtn = document.getElementById('themeSwitcherBtn');
+    const themeSwitcher = document.querySelector('.theme-switcher');
+    const themeOptions = document.querySelectorAll('input[name="theme"]');
+    
+    // Загружаем сохраненную тему
+    const savedTheme = localStorage.getItem('theme') || 'soft';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Устанавливаем активную радио-кнопку
+    const activeRadio = document.querySelector(`input[name="theme"][value="${savedTheme}"]`);
+    if (activeRadio) activeRadio.checked = true;
+    
+    // Открытие/закрытие тултипа
+    if (themeBtn && themeSwitcher) {
+        themeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeSwitcher.classList.toggle('active');
+        });
+        
+        // Закрытие при клике вне тултипа
+        document.addEventListener('click', (e) => {
+            if (!themeSwitcher.contains(e.target)) {
+                themeSwitcher.classList.remove('active');
+            }
+        });
+    }
+    
+    // Смена темы
+    themeOptions.forEach(option => {
+        option.addEventListener('change', (e) => {
+            const theme = e.target.value;
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeSwitcher.classList.remove('active');
+        });
+    });
+}
+
     // инициализация
     async function init() {
         await renderSlide(0); // начинаем с первого слайда
         setAutoMode(false);
+        // модальные окна
         initModals();
+        initDemoForm();
+        initCodeRequestForm();
+        // темы
+        initThemeSwitcher();
 
         // кнопки
         btnAuto.addEventListener('click', autoSlide);
@@ -295,9 +682,8 @@
         if (btnDemoHeader) {
             btnDemoHeader.addEventListener('click', () => {openModal('demoModal')});
         }
-        initFirstSlideBtns(); // делегирование слушателей кнопок стартового слайда
+        initFirstSlideBtns(); // кнопки стартового слайда
         
-
         // клавиши
         window.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
@@ -308,6 +694,9 @@
                 nextSlide();
             }
         });
+
+        // поддержка свайпов на тач-устройствах
+        initSwipeSupport();
     }
 
     init();

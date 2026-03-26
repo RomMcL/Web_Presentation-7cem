@@ -625,94 +625,45 @@
     }
 
     // Инициализация переключателя тем
-function initThemeSwitcher() {
-    const themeBtn = document.getElementById('themeSwitcherBtn');
-    const themeSwitcher = document.querySelector('.theme-switcher');
-    const themeOptions = document.querySelectorAll('input[name="theme"]');
-    
-    // Загружаем сохраненную тему
-    const savedTheme = localStorage.getItem('theme') || 'soft';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    
-    // Устанавливаем активную радио-кнопку
-    const activeRadio = document.querySelector(`input[name="theme"][value="${savedTheme}"]`);
-    if (activeRadio) activeRadio.checked = true;
-    
-    // Открытие/закрытие тултипа
-    if (themeBtn && themeSwitcher) {
-        themeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            themeSwitcher.classList.toggle('active');
-        });
+    function initThemeSwitcher() {
+        const themeBtn = document.getElementById('themeSwitcherBtn');
+        const themeSwitcher = document.querySelector('.theme-switcher');
+        const themeOptions = document.querySelectorAll('input[name="theme"]');
         
-        // Закрытие при клике вне тултипа
-        document.addEventListener('click', (e) => {
-            if (!themeSwitcher.contains(e.target)) {
+        // Загружаем сохраненную тему
+        const savedTheme = localStorage.getItem('theme') || 'soft';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Устанавливаем активную радио-кнопку
+        const activeRadio = document.querySelector(`input[name="theme"][value="${savedTheme}"]`);
+        if (activeRadio) activeRadio.checked = true;
+        
+        // Открытие/закрытие тултипа
+        if (themeBtn && themeSwitcher) {
+            themeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                themeSwitcher.classList.toggle('active');
+            });
+            
+            // Закрытие при клике вне тултипа
+            document.addEventListener('click', (e) => {
+                if (!themeSwitcher.contains(e.target)) {
+                    themeSwitcher.classList.remove('active');
+                }
+            });
+        }
+        
+        // Смена темы
+        themeOptions.forEach(option => {
+            option.addEventListener('change', (e) => {
+                const theme = e.target.value;
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
                 themeSwitcher.classList.remove('active');
-            }
+            });
         });
     }
-    
-    // Смена темы
-    themeOptions.forEach(option => {
-        option.addEventListener('change', (e) => {
-            const theme = e.target.value;
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            themeSwitcher.classList.remove('active');
-        });
-    });
-}
 
-function initMobileAddressBar() {
-    // Проверяем, что это мобильное устройство
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (!isMobile) return;
-    
-    let scrollTimeout = null;
-    
-    function hideAddressBar() {
-        // Проверяем, что фокус не на поле ввода
-        const activeElement = document.activeElement;
-        const isInputFocused = activeElement && (
-            activeElement.tagName === 'INPUT' ||
-            activeElement.tagName === 'TEXTAREA' ||
-            activeElement.isContentEditable
-        );
-        
-        if (!isInputFocused) {
-            window.scrollTo(0, 1);
-        }
-    }
-    
-    // При загрузке
-    window.addEventListener('load', () => {
-        setTimeout(hideAddressBar, 100);
-    });
-    
-    // При изменении ориентации
-    window.addEventListener('orientationchange', () => {
-        setTimeout(hideAddressBar, 100);
-    });
-    
-    // При изменении размера окна (дебаунс)
-    window.addEventListener('resize', () => {
-        if (scrollTimeout) clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(hideAddressBar, 100);
-    });
-    
-    // Слушаем скролл, но не мешаем пользователю
-    let lastScrollTop = 0;
-    window.addEventListener('scroll', () => {
-        const st = window.scrollY || document.documentElement.scrollTop;
-        // Если скроллим вниз и фокус не на поле ввода
-        if (st > lastScrollTop && document.activeElement === document.body) {
-            // Уже скрыто, ничего не делаем
-        }
-        lastScrollTop = st <= 0 ? 0 : st;
-    });
-    }
 
     // инициализация
     async function init() {
@@ -747,8 +698,6 @@ function initMobileAddressBar() {
 
         // поддержка свайпов на тач-устройствах
         initSwipeSupport();
-        // микро-скроллинг
-        initMobileAddressBar();
     }
 
     init();

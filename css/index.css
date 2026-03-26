@@ -1,10 +1,11 @@
 html, body {
     height: 100%;
+    min-height: 100dvh;
     overflow: hidden;
 }
 
 body {
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     margin: 0;
     font-family: Lato, Tahoma, sans-serif;
@@ -15,6 +16,12 @@ body {
     flex-flow: column nowrap;
     align-items: center;
     justify-content: space-between;
+
+    /* Учет безопасных зон */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 
     & .presentation-container {
         width: 100%;
@@ -37,7 +44,8 @@ header {
     justify-content: space-between;
     align-items: center;
     column-gap: 2rem;
-    padding: 1rem 0;
+    /* padding: 1rem 0; */
+    padding: max(1rem, env(safe-area-inset-top)) 0;
     border-bottom: 1px solid var(--graphite);
 
     & .header__main-content {
@@ -249,7 +257,8 @@ footer {
     justify-content: space-between;
     align-items: center;
     column-gap: 2rem;
-    padding: 1rem 0;
+    /* padding: 1rem 0; */
+    padding: 1rem 0 max(1rem, env(safe-area-inset-bottom));
     border-top: 1px solid var(--graphite);
 
     > .page-dots {

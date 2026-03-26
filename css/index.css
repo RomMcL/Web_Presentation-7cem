@@ -592,7 +592,7 @@ footer {
     border-radius: 0.6rem;
     max-width: 440px;
     width: 96%;
-    max-height: 98vh;
+    max-height: 98dvh;
     overflow-y: auto;
     opacity: 0;
     animation: scaleInModal 0.3s ease-out 0.4s forwards;

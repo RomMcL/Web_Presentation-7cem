@@ -664,6 +664,56 @@ function initThemeSwitcher() {
     });
 }
 
+function initMobileAddressBar() {
+    // Проверяем, что это мобильное устройство
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (!isMobile) return;
+    
+    let scrollTimeout = null;
+    
+    function hideAddressBar() {
+        // Проверяем, что фокус не на поле ввода
+        const activeElement = document.activeElement;
+        const isInputFocused = activeElement && (
+            activeElement.tagName === 'INPUT' ||
+            activeElement.tagName === 'TEXTAREA' ||
+            activeElement.isContentEditable
+        );
+        
+        if (!isInputFocused) {
+            window.scrollTo(0, 1);
+        }
+    }
+    
+    // При загрузке
+    window.addEventListener('load', () => {
+        setTimeout(hideAddressBar, 100);
+    });
+    
+    // При изменении ориентации
+    window.addEventListener('orientationchange', () => {
+        setTimeout(hideAddressBar, 100);
+    });
+    
+    // При изменении размера окна (дебаунс)
+    window.addEventListener('resize', () => {
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(hideAddressBar, 100);
+    });
+    
+    // Слушаем скролл, но не мешаем пользователю
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+        const st = window.scrollY || document.documentElement.scrollTop;
+        // Если скроллим вниз и фокус не на поле ввода
+        if (st > lastScrollTop && document.activeElement === document.body) {
+            // Уже скрыто, ничего не делаем
+        }
+        lastScrollTop = st <= 0 ? 0 : st;
+    });
+    }
+
     // инициализация
     async function init() {
         await renderSlide(0); // начинаем с первого слайда
@@ -697,6 +747,8 @@ function initThemeSwitcher() {
 
         // поддержка свайпов на тач-устройствах
         initSwipeSupport();
+        // микро-скроллинг
+        initMobileAddressBar();
     }
 
     init();

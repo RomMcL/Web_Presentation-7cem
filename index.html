@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
     <title>Цементный калькулятор  · "Регламент Иванова"</title>
     <link rel="shortcut icon" href="./img/favicon.svg" type="image/x-icon">
+    <!-- <link rel="preload" href="./font/Lato-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./font/Lato-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./font/PTSans-Regular.woff2" as="font" type="font/woff2" crossorigin> -->
     <link rel="stylesheet" type="text/css" href="./css/main.css">
     <link rel="stylesheet" type="text/css" href="./css/index.css">
     <link rel="stylesheet" type="text/css" href="./css/slides.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 </head>
 <body>
     <div class="presentation-container">
@@ -88,7 +92,7 @@
         <div id="codeRequestModal" class="modal modal-large custom-scroll">
             <div class="modal-header">
                 <span class="modal-header-icon icon_mail"></span>
-                <h3>Запрос кода доступа</h3>
+                <h3>Отправить запрос</h3>
                 <button class="modal-close" aria-label="Закрыть">&times;</button>
             </div>
             <div class="modal-body">
@@ -116,10 +120,10 @@
                     
                     <div class="form-group">
                         <label for="userMessage">Комментарий<span>*</span></label>
-                        <textarea id="userMessage" class="modal-textarea custom-scroll" rows="3" placeholder="Ваш вопрос или комментарий..."></textarea>
+                        <textarea id="userMessage" class="modal-textarea custom-scroll" rows="3" placeholder="Вы можете запросить код доступа к Демо, согласовать тестовый расчёт с Вашими компонентами, задать любой вопрос или оставить комментарий..."></textarea>
                     </div>
 
-                    <p id="descriptionRequestForm" class="form-description">Заполните форму, и мы отправим код доступа на Вашу почту</p>
+                    <p id="descriptionRequestForm" class="form-description">Заполните форму, и мы отправим ответ на Вашу почту</p>
                     <div id="waitingMailLoader" class="waiting-mail-loader">
                         <div class="mail-loader-icon"></div>
                     </div>

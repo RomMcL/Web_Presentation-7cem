@@ -218,6 +218,19 @@ main {
             font-size: 1.2rem;
             opacity: 0;
             animation: fadeIn 0.8s ease-in 1.4s forwards;
+
+            > .nav-link {
+                display: inline-block;
+                color: var(--white);
+                font-family: inherit;
+                font-size: 0.85em;
+                padding-top: 0.4rem;
+                transition: all 0.3s;
+
+                &:hover {
+                    color: var(--graphite);
+                }
+            }
         }
 
         > .slide-first_buttons {
@@ -1697,10 +1710,10 @@ main {
             flex-grow: 0;
             order: 2;
             position: relative;
-            > h2 { animation: fadeIn 0.8s ease-in forwards, hideBlock 0.1s ease-out 4.5s forwards; } 
+            > h2 { animation: fadeIn 0.8s ease-in forwards, hideBlock 0.1s ease-out 21s forwards; } 
             > .slide-solution_content-items {
                 row-gap: 2rem;
-                animation: hideBlock 0.1s ease-out 4.5s forwards;
+                animation: hideBlock 0.1s ease-out 21s forwards;
                 > h3 { animation: fadeIn 0.6s ease-out 0.8s forwards; }
                 > p { 
                     &:first-of-type { animation: slideInFromLeft 0.5s ease-out 1.5s forwards; }
@@ -1711,8 +1724,8 @@ main {
                 position: absolute;
                 height: 0;
                 opacity: 0; 
-                animation: findBlock 0.1s ease-out 4.5s forwards,
-                           fadeIn 0.6s ease-out 6.8s forwards;
+                animation: findBlock 0.1s ease-out 21s forwards,
+                           fadeIn 0.6s ease-out 23.3s forwards;
             }
         }
         > .slide-solution_schema {
@@ -1721,22 +1734,22 @@ main {
             position: absolute;
             height: 0;
             overflow: hidden;
-            animation: findBlock 0.1s ease-out 4.5s forwards;
-            > h3 { font-size: 1.4rem; animation: fadeIn 0.6s ease-out 4.6s forwards; }
+            animation: findBlock 0.1s ease-out 21s forwards;
+            > h3 { font-size: 1.4rem; animation: fadeIn 0.6s ease-out 21.1s forwards; }
             > .slide-solution_schema-wrapper {
                 > .slide-solution_schema-element {
                     flex-flow: row nowrap;
                     column-gap: 1rem;
                     padding: 0.6rem 1.6rem;
-                    &:nth-of-type(1) { animation: scaleIn 0.5s ease-out 5.2s forwards; }
-                    &:nth-of-type(3) { animation: scaleIn 0.5s ease-out 5.6s forwards; }
-                    &:nth-of-type(5) { animation: scaleIn 0.5s ease-out 6.0s forwards; }
-                    &:nth-of-type(7) { animation: scaleIn 0.5s ease-out 6.4s forwards; }
+                    &:nth-of-type(1) { animation: scaleIn 0.5s ease-out 21.7s forwards; }
+                    &:nth-of-type(3) { animation: scaleIn 0.5s ease-out 22.1s forwards; }
+                    &:nth-of-type(5) { animation: scaleIn 0.5s ease-out 22.5s forwards; }
+                    &:nth-of-type(7) { animation: scaleIn 0.5s ease-out 22.9s forwards; }
                 }
                 > .slide-solution_schema-pointer {    
-                    &:nth-of-type(2) { animation: growPointer 0.4s ease-out 5.4s forwards; }
-                    &:nth-of-type(4) { animation: growPointer 0.4s ease-out 5.8s forwards; }
-                    &:nth-of-type(6) { animation: growPointer 0.4s ease-out 6.2s forwards; }
+                    &:nth-of-type(2) { animation: growPointer 0.4s ease-out 21.9s forwards; }
+                    &:nth-of-type(4) { animation: growPointer 0.4s ease-out 22.3s forwards; }
+                    &:nth-of-type(6) { animation: growPointer 0.4s ease-out 22.7s forwards; }
                 } 
             }
         }
@@ -2203,7 +2216,7 @@ main {
             justify-content: space-around;
             row-gap: 1rem;
             position: relative;
-            animation: hideBlock 0.1s ease-out 7.0s forwards;
+            animation: hideBlock 0.1s ease-out 15s forwards;
             
             > .slide-analyzer_content-item {
                 &:nth-child(1) { width: 100%; }
@@ -2229,7 +2242,7 @@ main {
             position: absolute;
             height: 0;
             overflow: hidden;
-            animation: findBlock 0.1s ease-out 7.0s forwards;
+            animation: findBlock 0.1s ease-out 15s forwards;
             
             > .slide-analyzer_schema-wrapper {
                 grid-template-columns: 
@@ -2262,13 +2275,13 @@ main {
                 }
 
                 > .slide-analyzer_schema-element {
-                    &:nth-child(1) { grid-area: 1 / 2 / 3 / 4; animation-delay: 7.0s; }
-                    &:nth-child(2) { grid-area: 4 / 2 / 6 / 4; animation-delay: 7.0s; }
-                    &:nth-child(3) { grid-area: 2 / 6 / 5 / 8; animation-delay: 10.0s; }
-                    &:nth-child(4) { grid-area: 7 / 2 / 9 / 4; animation-delay: 8.0s; }
-                    &:nth-child(5) { grid-area: 7 / 6 / 9 / 8; animation-delay: 7.0s; }
-                    &:nth-child(6) { grid-area: 11 / 2 / 12 / 4; animation-delay: 9.0s; }
-                    &:nth-child(7) { grid-area: 11 / 6 / 12 / 8; animation-delay: 9.0s; }
+                    &:nth-child(1) { grid-area: 1 / 2 / 3 / 4; animation-delay: 15s; }
+                    &:nth-child(2) { grid-area: 4 / 2 / 6 / 4; animation-delay: 15s; }
+                    &:nth-child(3) { grid-area: 2 / 6 / 5 / 8; animation-delay: 18s; }
+                    &:nth-child(4) { grid-area: 7 / 2 / 9 / 4; animation-delay: 16s; }
+                    &:nth-child(5) { grid-area: 7 / 6 / 9 / 8; animation-delay: 15s; }
+                    &:nth-child(6) { grid-area: 11 / 2 / 12 / 4; animation-delay: 17s; }
+                    &:nth-child(7) { grid-area: 11 / 6 / 12 / 8; animation-delay: 17s; }
                     > p > span {display: inline;}
                 }
 
@@ -2277,7 +2290,7 @@ main {
                     margin-top: 1rem;
                     margin-left: 0;
                     margin-right: 7%;
-                    animation-delay: 10.5s;
+                    animation-delay: 18.5s;
                 }
 
                 > .slide-analyzer_schema-pointer {                
@@ -2285,7 +2298,7 @@ main {
                         grid-area: 2 / 1 / 5 / 2;
                         border-style: solid;
                         border-right: none;
-                        animation-delay: 7.7s;
+                        animation-delay: 15.7s;
                     }
     
                     &.schema-pointer-2 {
@@ -2293,7 +2306,7 @@ main {
                         border-style: solid;
                         border-right: none;
                         border-top: none;
-                        animation-delay: 7.7s;
+                        animation-delay: 15.7s;
                     }
     
                     &.schema-pointer-3 {
@@ -2302,7 +2315,7 @@ main {
                         border-left: none;
                         border-right: none;
                         border-top: none;
-                        animation-delay: 7.7s;
+                        animation-delay: 15.7s;
     
                         &::after {
                             top: auto;
@@ -2317,7 +2330,7 @@ main {
                         border-style: dashed;
                         border-left: none;
                         border-top: 2px dashed var(--graphite); 
-                        animation-delay: 9.7s; 
+                        animation-delay: 17.7s; 
                     }
     
                     &.schema-pointer-5 {
@@ -2327,7 +2340,7 @@ main {
                         border-bottom: none;
                         border-top: 2px dashed var(--graphite);
                         transform: translateY(50%);
-                        animation-delay: 9.7s;
+                        animation-delay: 17.7s;
 
                         &::after {
                             top: auto;
@@ -2344,7 +2357,7 @@ main {
                         border-left: none;
                         border-top: none;
                         border-bottom: none;
-                        animation-delay: 10.7s;
+                        animation-delay: 18.7s;
 
                         &::after {
                             top: auto;
@@ -2360,7 +2373,7 @@ main {
                         border-top: none;
                         border-bottom: none;
                         border-right: 2px solid var(--graphite);
-                        animation-delay: 8.7s;
+                        animation-delay: 16.7s;
 
                         &::after {
                             bottom: -0.5rem;
@@ -2375,7 +2388,7 @@ main {
                         border-top: 2px solid var(--graphite);
                         border-left: none;
                         border-bottom: none;
-                        animation-delay: 8.7s;
+                        animation-delay: 16.7s;
   
                         &::after {
                             bottom: -0.5rem;

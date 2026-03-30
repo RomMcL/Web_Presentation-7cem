@@ -3,18 +3,18 @@
     // ===== МОДЕЛЬ: слайды загружаются из папки /slides/slide_1.html ... slide_n.html =====
     const slides = [
         { title: 'Начальный слайд', file: 'slide_first.html', autoDelay: 3000 },
-        { title: 'Содержание презентации', file: 'slide_presContent.html', autoDelay: 7000 },
-        { title: 'Контекст', file: 'slide_context.html', autoDelay: 7000 },
-        { title: 'Проблема', file: 'slide_whyImpossible.html', autoDelay: 7000 },
-        { title: 'Решение', file: 'slide_solution.html', autoDelay: 8500 },
-        { title: 'Анализаторы', file: 'slide_analyzer.html', autoDelay: 13000 },
-        { title: 'Возможности программы', file: 'slide_opportunities.html', autoDelay: 7000 },
-        { title: 'Экономика', file: 'slide_economy.html', autoDelay: 6000 },
-        { title: 'Преимущества', file: 'slide_bonusCards.html', autoDelay: 6000 },
-        { title: 'Модель', file: 'slide_annualEffect.html', autoDelay: 6000 },
-        { title: 'Доказательства', file: 'slide_proofs.html', autoDelay: 5000 },
-        { title: 'Частые вопросы', file: 'slide_faq.html', autoDelay: 7000 },
-        { title: 'Финальный слайд', file: 'slide_end.html', autoDelay: 6000 },
+        { title: 'Содержание презентации', file: 'slide_presContent.html', autoDelay: 9000 },
+        { title: 'Контекст', file: 'slide_context.html', autoDelay: 14000 },
+        { title: 'Проблема', file: 'slide_whyImpossible.html', autoDelay: 27000 },
+        { title: 'Решение', file: 'slide_solution.html', autoDelay: 27000 },
+        { title: 'Анализаторы', file: 'slide_analyzer.html', autoDelay: 22000 },
+        { title: 'Возможности программы', file: 'slide_opportunities.html', autoDelay: 16000 },
+        { title: 'Экономика', file: 'slide_economy.html', autoDelay: 21000 },
+        { title: 'Преимущества', file: 'slide_bonusCards.html', autoDelay: 14000 },
+        { title: 'Модель', file: 'slide_annualEffect.html', autoDelay: 12000 },
+        { title: 'Доказательства', file: 'slide_proofs.html', autoDelay: 16000 },
+        { title: 'Частые вопросы', file: 'slide_faq.html', autoDelay: 26000 },
+        { title: 'Финальный слайд', file: 'slide_end.html', autoDelay: 22000 },
     ];
 
     // Базовый путь к папке со слайдами (относительно index.html)
@@ -408,7 +408,7 @@
         }
     }
 
-    // Обработка формы запроса кода
+    // Обработка формы отправки письма
     function initCodeRequestForm() {
         const submitBtn = document.getElementById('submitRequestBtn');
         const cancelBtn = document.getElementById('cancelRequestBtn');
@@ -453,44 +453,30 @@
                 setButtonLoading(true);
                 showLoader();
 
-                // Имитация отправки (заменить на реальный запрос)
-                
+                // Параметры для EmailJS
+                const parameters = {
+                    name: userName,
+                    email: userEmail,
+                    message: userMessage,
+                    company: userCompany || 'Не указано',
+                    phone: userPhone || 'Не указано',
+                    date: updateTime()
+                };
+
+                /* const serviceID = ''; // serviceID
+                const templateID = ''; // templateID */
+               
                 try {
-                    // Здесь должен быть fetch запрос
-                    /*
-                    const response = await fetch('/api/request-code', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            name: userName,
-                            email: userEmail,
-                            company: userCompany,
-                            phone: userPhone,
-                            message: userMessage
-                        })
-                    });
-                    
-                    if (response.ok) {
-                        showFormSuccess('Запрос отправлен! Код доступа будет выслан на указанный email в ближайшее время.');
-                        if (form) form.reset();
-                        setTimeout(() => {
-                            closeModal();
-                        }, 3000);
-                    } else {
-                        const errorData = await response.json();
-                        showFormError(errorData.message || 'Произошла ошибка. Пожалуйста, попробуйте позже.');
-                    }
-                    */
-                
+
                     // Временная имитация (удалить после добавления реального API)
                     await new Promise(resolve => setTimeout(resolve, 5000));
 
+                    /* // Отправка письма через EmailJS
+                    await emailjs.send(serviceID, templateID, parameters); */
 
                     // Скрываем лоадер и формируем сообщение об успехе
                     hideLoader();
-                    showFormSuccess('Запрос отправлен! Код доступа будет выслан на указанный email в ближайшее время.');
+                    showFormSuccess('Запрос отправлен! Ответ будет выслан на указанный email в ближайшее время.');
                     // Очищаем форму
                     if (form) form.reset();
                     // Закрываем модалку через 3 секунды
@@ -499,6 +485,7 @@
                     }, 3000);
 
                 } catch (error) {
+                    console.error('Ошибка отправки:', error);
                     showFormError('Ошибка соединения. Проверьте интернет-соединение.');
                 } finally {
                     // Разблокируем кнопку
@@ -608,6 +595,19 @@
             const re = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
             return re.test(email);
         }
+
+        // Получение даты и времени в формате "дд.мм.гг чч:мм"
+        function updateTime() {
+            const date = new Date();        
+            const formatted = `${String(date.getDate()).padStart(2, '0')}.` +
+                            `${String(date.getMonth() + 1).padStart(2, '0')}.` +
+                            `${String(date.getFullYear()).slice(-2)} ` +
+                            `${String(date.getHours()).padStart(2, '0')}:` +
+                            `${String(date.getMinutes()).padStart(2, '0')}`;
+            
+            return formatted;
+        };
+
         
         // Очистка сообщений при начале ввода в поля
         const inputs = ['userName', 'userEmail', 'userMessage', 'userCompany', 'userPhone'];
@@ -672,6 +672,7 @@
         // модальные окна
         initModals();
         initDemoForm();
+        /* emailjs.init(''); // Инициализация EmailJS с публичным ключом */
         initCodeRequestForm();
         // темы
         initThemeSwitcher();

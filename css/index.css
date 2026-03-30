@@ -9,7 +9,6 @@ body {
     overflow: hidden;
     margin: 0;
     font-family: Lato, Tahoma, sans-serif;
-    /* font-family: RobotoCondensed, Tahoma, sans-serif; */
     background-color: var(--black);
     color: var(--white);
     display: flex;
@@ -44,7 +43,6 @@ header {
     justify-content: space-between;
     align-items: center;
     column-gap: 2rem;
-    /* padding: 1rem 0; */
     padding: max(1rem, env(safe-area-inset-top)) 0;
     border-bottom: 1px solid var(--graphite);
 
@@ -257,7 +255,6 @@ footer {
     justify-content: space-between;
     align-items: center;
     column-gap: 2rem;
-    /* padding: 1rem 0; */
     padding: 1rem 0 max(1rem, env(safe-area-inset-bottom));
     border-top: 1px solid var(--graphite);
 
